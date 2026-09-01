@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Выборы актива класса 6 «Б»</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231e3a8a'/><text x='32' y='42' font-size='30' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'>6Б</text></svg>">
+<style>
+  /* ================= БАЗА ================= */
+  :root{
+    --bg:#eef1f6;
+    --card:#ffffff;
+    --ink:#1c2536;
+    --muted:#5d6b85;
+    --line:#e2e7f0;
+    --primary:#1e3a8a;
+    --primary-dark:#152c6d;
+    --green:#157347;
+    --green-bg:#e6f4ec;
+    --green-line:#b7e0c8;
+    --red:#b91c1c;
+    --red-bg:#fdecec;
+    --red-line:#f3c1c1;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family:'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.55;
+  }
+  ::selection{ background:#c7d5f2; color:var(--ink); }
+  button{ font-family:inherit; }
+  section[id]{ scroll-margin-top:76px; }
+  .container{ max-width:920px; margin:0 auto; padding:0 18px; }
+
+  /* ================= ШАПКА ================= */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(255,255,255,.97);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 1px 6px rgba(28,37,54,.06);
+  }
+  .header-inner{
+    max-width:920px; margin:0 auto; padding:12px 18px;
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  }
+  .logo{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
+  .logo-badge{
+    background:var(--primary); color:#fff;
+    font-weight:800; font-size:1.1rem; letter-spacing:.5px;
+    width:44px; height:44px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 6px rgba(30,58,138,.35);
+  }
+  .logo-text b{ display:block; font-size:1rem; line-height:1.25; color:var(--ink); }
+  .logo-text span{ font-size:.76rem; color:var(--muted); letter-spacing:.4px; text-transform:uppercase; }
+  .header-right{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  nav{ display:flex; gap:8px; flex-wrap:wrap; }
+  .nav-btn{
+    text-decoration:none; color:var(--primary);
+    font-weight:700; font-size:.88rem;
+    padding:8px 13px; border-radius:8px;
+    border:1.5px solid var(--primary); background:#fff;
+    transition:background .18s, color .18s;
+  }
+  .nav-btn:hover{ background:var(--primary); color:#fff; }
+
+  /* ================= БЛОК ПОЛЬЗОВАТЕЛЯ ================= */
+  .userbar{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .ub-name{
+    font-weight:700; font-size:.87rem;
+    background:#f1f4fa; border:1px solid var(--line);
+    padding:6px 12px; border-radius:999px; white-space:nowrap;
+  }
+  .ub-switch{ padding:6px 12px; font-size:.82rem; }
+  .ub-reg{ padding:6px 14px; font-size:.85rem; }
+
+  /* ================= РЕГИСТРАЦИЯ (МОДАЛЬНОЕ ОКНО) ================= */
+  .reg-overlay{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(15,23,42,.55);
+    display:flex; align-items:center; justify-content:center; padding:18px;
+  }
+  .reg-overlay[hidden]{ display:none; }
+  .reg-card{
+    background:#fff; border-radius:14px; padding:26px 24px;
+    width:100%; max-width:400px;
+    box-shadow:0 20px 55px rgba(0,0,0,.35);
+    display:grid; gap:10px;
+  }
+  .reg-card h2{ margin:0; font-size:1.2rem; }
+  .reg-sub{ margin:0; color:var(--muted); font-size:.9rem; }
+  .reg-card input{
+    padding:11px 14px; border:1.5px solid var(--line); border-radius:8px;
+    font:inherit; font-weight:600;
+  }
+  .reg-card input:focus{ outline:none; border-color:var(--primary); }
+  .reg-msg{ margin:0; font-size:.84rem; font-weight:700; min-height:1em; }
+  .reg-msg.ok{ color:var(--green); }
+  .reg-msg.err{ color:var(--red); }
+  .reg-later{
+    background:none; border:none; color:var(--muted); cursor:pointer;
+    font:inherit; font-size:.85rem; padding:6px; justify-self:center;
+  }
+  .reg-later:hover{ color:var(--ink); text-decoration:underline; }
+
+  /* ================= БАННЕР ================= */
+  .banner{
+    margin-top:22px;
+    background:linear-gradient(150deg,#1e3a8a,#12265f);
+    border-radius:14px;
+    padding:38px 26px 34px;
+    text-align:center;
+    color:#f2f5fb;
+    box-shadow:0 10px 28px rgba(18,38,95,.35);
+  }
+  .banner .overline{
+    font-size:.8rem; letter-spacing:2.5px; text-transform:uppercase;
+    color:#c9d6f2; margin:0 0 8px; font-weight:600;
+  }
+  .banner h1{ margin:0 0 10px; font-size:clamp(24px,4.6vw,36px); color:#fff; letter-spacing:.3px; }
+  .banner p{ margin:0 auto; max-width:560px; color:#c9d6f2; font-size:.98rem; }
+  .banner::after{
+    content:''; display:block; width:64px; height:3px; border-radius:3px;
+    background:#d9a441; margin:18px auto 0;
+  }
+
+  /* ================= ПРАВИЛА ================= */
+  .rules{
+    margin-top:22px; background:var(--card);
+    border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px;
+    box-shadow:0 3px 12px rgba(28,37,54,.05);
+  }
+  .rules h2{
+    margin:0 0 14px; font-size:1.05rem; font-weight:800;
+    display:flex; align-items:center; gap:10px;
+  }
+  .rules h2::before{ content:''; width:5px; height:20px; border-radius:3px; background:var(--primary); }
+  .rules ol{ margin:0; padding-left:22px; display:grid; gap:8px; }
+  .rules li{ font-size:.93rem; color:#33405c; }
+  .rules li b{ color:var(--ink); }
+
+  /* ================= ЗАГОЛОВКИ СЕКЦИЙ ================= */
+  .sec-title{
+    display:flex; align-items:center; gap:10px;
+    font-size:1.3rem; margin:34px 0 14px; font-weight:800;
+  }
+  .sec-title::before{ content:''; width:5px; height:24px; border-radius:3px; background:var(--primary); }
+  .voting-sub{ margin:0 0 6px; color:var(--muted); font-size:.9rem; }
+  .voting-sub b{ color:var(--primary); }
+  .total-count{ font-size:.9rem; font-weight:700; color:var(--primary); margin:0 0 10px; }
+
+  .reg-notice{
+    background:#fff8e6; border:1.5px solid #e8c96a; color:#7a5a00;
+    border-radius:10px; padding:12px 16px;
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:8px;
+  }
+  .reg-notice p{ margin:0; font-weight:700; font-size:.9rem; flex:1; }
+
+  /* ================= КАРТОЧКА РОЛИ ================= */
+  .role-card{
+    background:var(--card); border-radius:12px; margin:16px 0;
+    border:1px solid var(--line);
+    box-shadow:0 3px 12px rgba(28,37,54,.05);
+    overflow:hidden;
+  }
+  .role-head{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:16px 20px;
+    border-bottom:1px solid var(--line);
+    background:#fbfcfe;
+  }
+  .role-icon{
+    flex:none; width:46px; height:46px; border-radius:10px;
+    background:#f0f4ff; border:1px solid #dbe3f7;
+    display:flex; align-items:center; justify-content:center; font-size:1.45rem;
+  }
+  .role-head-text{ flex:1; }
+  .role-head-text h3{ margin:0 0 4px; font-size:1.05rem; font-weight:800; }
+  .role-head-text p{ margin:0; font-size:.85rem; color:var(--muted); }
+  .role-stat{
+    flex:none; font-size:.78rem; color:var(--muted); text-align:right;
+    background:var(--card); border:1px solid var(--line); border-radius:999px;
+    padding:4px 12px; white-space:nowrap; align-self:center;
+  }
+  .role-stat b{ color:var(--primary); }
+
+  /* ================= КАНДИДАТЫ ================= */
+  .cand-list{ padding:4px 20px 10px; }
+  .cand-empty{ color:var(--muted); text-align:center; padding:16px 0; font-size:.92rem; }
+  .cand-row{
+    display:flex; align-items:center; gap:12px;
+    padding:10px 6px; border-bottom:1px solid #f0f2f8;
+    transition:background .2s; flex-wrap:wrap;
+  }
+  .cand-row:last-child{ border-bottom:none; }
+  .cand-row.mine{
+    background:var(--green-bg);
+    border-left:4px solid var(--green);
+    margin-left:-4px; padding-left:10px; border-radius:8px;
+  }
+  .cand-info{ flex:1; display:flex; align-items:center; gap:8px; min-width:0; }
+  .cand-name{ font-weight:700; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .leader{
+    flex:none; background:var(--green-bg); color:var(--green);
+    border:1px solid var(--green-line); border-radius:999px;
+    padding:2px 10px; font-size:.7rem; font-weight:800; letter-spacing:.5px; text-transform:uppercase;
+  }
+  .badge{
+    flex:none; background:#f1f4fa; border:1px solid #dbe2ee;
+    color:var(--primary); font-weight:700; font-size:.82rem;
+    border-radius:999px; padding:3px 12px; white-space:nowrap;
+  }
+  .badge.flash{ animation:pop .45s ease; }
+  .cand-row.flash{ animation:rowflash .8s ease; }
+
+  .vote-wrap{
+    flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:4px; min-width:150px;
+  }
+  .vote-msg{
+    margin:0; font-size:.8rem; font-weight:700; text-align:right;
+    max-height:0; overflow:hidden; opacity:0;
+    transition:max-height .25s ease, opacity .2s ease;
+  }
+  .vote-msg.err{ color:var(--red); max-height:3em; opacity:1; }
+  .vote-msg.ok{ color:var(--green); max-height:3em; opacity:1; }
+
+  @keyframes pop{ 0%{ transform:scale(1);} 45%{ transform:scale(1.22);} 100%{ transform:scale(1);} }
+  @keyframes rowflash{ 0%{ background:#eef3ff; } 100%{ background:transparent; } }
+  @keyframes shake{
+    10%,90%{ transform:translateX(-1px); }
+    20%,80%{ transform:translateX(2px); }
+    30%,50%,70%{ transform:translateX(-3px); }
+    40%,60%{ transform:translateX(3px); }
+  }
+  .shake{ animation:shake .45s ease; }
+
+  /* ================= КНОПКИ ================= */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    border:none; cursor:pointer; font-weight:700; font-size:.88rem;
+    padding:9px 16px; border-radius:8px; color:#fff; background:var(--primary);
+    transition:background .18s, box-shadow .18s;
+    user-select:none;
+  }
+  .btn:hover{ background:var(--primary-dark); box-shadow:0 3px 8px rgba(30,58,138,.3); }
+  .btn:disabled{ opacity:.55; cursor:default; box-shadow:none; }
+  .btn:focus-visible{ outline:3px solid rgba(30,58,138,.35); outline-offset:2px; }
+
+  .vote-btn{ flex:none; }
+  .vote-btn.voted{ background:var(--green); }
+  .vote-btn.voted:hover{ background:var(--green); box-shadow:none; }
+
+  .btn-ghost{ background:#fff; color:var(--primary); border:1.5px dashed #aab6d6; }
+  .btn-ghost:hover{ background:#f0f4ff; box-shadow:none; }
+  .btn-ghost.active{ background:var(--primary); color:#fff; border-style:solid; box-shadow:0 3px 8px rgba(30,58,138,.3); }
+
+  .btn-round{
+    width:34px; height:34px; padding:0; border-radius:8px;
+    background:#fff; color:var(--ink); border:1.5px solid #cfd6e6; font-size:1.05rem;
+  }
+  .btn-round.minus:hover{ border-color:var(--red); color:var(--red); background:var(--red-bg); box-shadow:none; }
+  .btn-round.plus:hover{ border-color:var(--green); color:var(--green); background:var(--green-bg); box-shadow:none; }
+
+  .btn-danger{ background:var(--red); }
+  .btn-danger:hover{ background:#8f1c1c; box-shadow:0 3px 8px rgba(185,28,28,.3); }
+  .btn-danger.confirm{ background:#7d1818; }
+  .btn-danger-soft{ background:#fff; color:var(--red); border:1.5px solid var(--red); }
+  .btn-danger-soft:hover{ background:var(--red); color:#fff; box-shadow:0 3px 8px rgba(185,28,28,.3); }
+
+  /* ================= ВЫДВИЖЕНИЕ ================= */
+  .nom{ border-top:1px solid var(--line); padding:14px 20px; background:#fbfcfe; }
+  .nom-toggle{ width:100%; }
+  .nom-form{
+    max-height:0; opacity:0; overflow:hidden;
+    transition:max-height .35s ease, opacity .3s ease, margin .35s ease;
+    display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+  }
+  .nom-form.open{ max-height:220px; opacity:1; margin-top:12px; }
+  .nom-form input{
+    flex:1; min-width:180px;
+    padding:10px 14px; border:1.5px solid var(--line); border-radius:8px;
+    font:inherit; font-weight:600; background:#fff;
+  }
+  .nom-form input:focus{ outline:none; border-color:var(--primary); }
+  .nom-name{ flex:1; min-width:180px; font-size:.95rem; font-weight:600; }
+  .nom-name b{ color:var(--primary); }
+  .nom-msg{ flex-basis:100%; margin:2px 0 0; font-size:.84rem; font-weight:700; min-height:1.1em; }
+  .nom-msg.ok{ color:var(--green); }
+  .nom-msg.err{ color:var(--red); }
+
+  /* ================= АДМИН-ПАНЕЛЬ ================= */
+  .admin-panel{
+    background:var(--card); border-radius:12px; border:1.5px dashed #aab6d6;
+    padding:22px 20px; margin-bottom:34px;
+    box-shadow:0 3px 12px rgba(28,37,54,.05);
+  }
+  .admin-panel h2{ margin:0 0 14px; font-size:1.2rem; display:flex; align-items:center; gap:10px; }
+  .admin-panel h2::before{ content:''; width:5px; height:22px; border-radius:3px; background:var(--primary); }
+  .lock-icon{ font-size:1.8rem; text-align:center; margin-bottom:8px; }
+  .admin-lock{ text-align:center; max-width:420px; margin:0 auto; }
+  .admin-lock p{ color:var(--muted); font-size:.9rem; margin:4px 0 14px; }
+  .pass-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+  .pass-row input{
+    flex:1; min-width:170px; padding:10px 14px; border:1.5px solid var(--line);
+    border-radius:8px; font:inherit; font-weight:600;
+  }
+  .pass-row input:focus{ outline:none; border-color:var(--primary); }
+  .admin-msg, .pass-msg{ font-size:.84rem; font-weight:700; margin:8px 0 0; min-height:1.1em; }
+  .admin-msg.ok, .pass-msg.ok{ color:var(--green); }
+  .admin-msg.err, .pass-msg.err{ color:var(--red); }
+
+  .admin-settings{
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+    background:#fbfcfe; border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; margin-bottom:16px;
+  }
+  .admin-title{ font-weight:800; margin-right:6px; }
+
+  .admin-role{ margin:14px 0; padding-top:10px; border-top:1px solid var(--line); }
+  .admin-role-head{ font-weight:800; font-size:1rem; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .admin-role-head .count{ font-weight:600; font-size:.76rem; color:var(--muted); background:#f1f4fa; border:1px solid #dbe2ee; padding:2px 10px; border-radius:999px; }
+  .admin-row{
+    display:flex; align-items:center; gap:10px;
+    padding:8px 4px; border-bottom:1px solid #f0f2f8; flex-wrap:wrap;
+  }
+  .admin-name{ flex:1; font-weight:700; min-width:120px; }
+  .admin-controls{ display:flex; gap:6px; }
+  .del-btn{ padding:7px 12px; font-size:.8rem; }
+
+  .admin-votes-head{
+    font-size:.76rem; font-weight:800; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.5px; margin:10px 0 6px;
+  }
+  .admin-votes{ background:#fbfcfe; border:1px solid var(--line); border-radius:10px; padding:6px 14px; }
+  .admin-vote-row{
+    display:flex; gap:10px; align-items:center; padding:5px 2px; font-size:.88rem;
+    border-bottom:1px dashed #eef1f8;
+  }
+  .admin-vote-row:last-child{ border-bottom:none; }
+  .avoter{ font-weight:700; }
+  .aarrow{ color:var(--muted); }
+  .afor{ color:var(--primary); font-weight:600; }
+
+  .admin-global{ margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .admin-global p{ margin:0; font-weight:800; }
+
+  /* ================= ПОДВАЛ ================= */
+  footer{
+    text-align:center; padding:28px 18px 36px;
+    color:var(--muted); font-size:.85rem; border-top:1px solid var(--line);
+    margin-top:10px;
+  }
+  footer b{ color:var(--primary); }
+
+  /* ================= АДАПТИВ ================= */
+  @media (max-width:720px){
+    .role-head{ flex-wrap:wrap; }
+    .role-stat{ text-align:left; }
+    .cand-info{ flex-basis:100%; }
+    .header-right{ width:100%; justify-content:space-between; }
+    .vote-wrap{ align-items:stretch; flex-basis:100%; }
+    .nav-btn{ font-size:.8rem; padding:7px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#top">
+      <div class="logo-badge">6Б</div>
+      <div class="logo-text">
+        <b>Выборы актива класса</b>
+        <span>6 «Б»</span>
+      </div>
+    </a>
+    <div class="header-right">
+      <div class="userbar" id="userbar"></div>
+      <nav>
+        <a class="nav-btn" href="#rules">Правила</a>
+        <a class="nav-btn" href="#voting">Голосование</a>
+        <a class="nav-btn" href="#admin">Админ-панель</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- МОДАЛЬНОЕ ОКНО РЕГИСТРАЦИИ -->
+<div class="reg-overlay" id="regOverlay" hidden>
+  <div class="reg-card">
+    <h2>Регистрация участника</h2>
+    <p class="reg-sub">Регистрация нужна один раз. Укажите фамилию и имя — после этого можно голосовать.</p>
+    <input type="text" id="regFirst" placeholder="Имя" maxlength="30" autocomplete="off">
+    <input type="text" id="regLast" placeholder="Фамилия" maxlength="30" autocomplete="off">
+    <button class="btn btn-primary" id="regSubmit">Зарегистрироваться</button>
+    <p class="reg-msg" id="regMsg"></p>
+    <button class="reg-later" id="regLater" type="button">Позже</button>
+  </div>
+</div>
+
+<main class="container" id="top">
+
+  <!-- БАННЕР -->
+  <section class="banner">
+    <p class="overline">Класс 6 «Б»</p>
+    <h1>Выборы актива класса</h1>
+    <p>Голосование за кандидатов в актив класса. Каждый ученик может выдвинуть свою кандидатуру и проголосовать.</p>
+  </section>
+
+  <!-- ПРАВИЛА -->
+  <section class="rules" id="rules">
+    <h2>Правила голосования</h2>
+    <ol>
+      <li><b>Зарегистрируйтесь</b> в начале работы сайта: фамилия и имя — один раз, до конца голосования.</li>
+      <li>В каждой роли можно отдать <b>один голос</b>.</li>
+      <li><b>Голосовать за себя нельзя.</b></li>
+      <li>Выдвинуть свою кандидатуру может только <b>зарегистрированный участник</b> — кандидатом становитесь именно вы.</li>
+    </ol>
+  </section>
+
+  <!-- ГОЛОСОВАНИЕ -->
+  <section id="voting">
+    <h2 class="sec-title">Голосование</h2>
+    <p class="voting-sub" id="votingSub"></p>
+    <p class="total-count">Всего отдано голосов: <span id="totalVotes">0</span></p>
+    <div class="reg-notice" id="regNotice" hidden>
+      <p>Для участия в голосовании необходимо зарегистрироваться.</p>
+      <button class="btn btn-primary" id="regNoticeBtn">Зарегистрироваться</button>
+    </div>
+    <div id="roles"></div>
+  </section>
+
+  <!-- АДМИН-ПАНЕЛЬ -->
+  <section id="admin">
+    <h2 class="sec-title">Админ-панель</h2>
+    <div class="admin-panel" id="adminBox"></div>
+  </section>
+
+</main>
+
+<footer>
+  Сайт класса <b>6 «Б»</b> · регистрация и данные сохраняются в этом браузере (localStorage)<br>
+  Вопросы по организации голосования — классному руководителю
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- хранилище (с запасом для предпросмотра) ---------- */
+  var store = (function () {
+    try {
+      var t = '__klass6b_test__';
+      localStorage.setItem(t, '1');
+      localStorage.removeItem(t);
+      return localStorage;
+    } catch (e) {
+      var mem = {};
+      return {
+        getItem: function (k) { return Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null; },
+        setItem: function (k, v) { mem[k] = String(v); },
+        removeItem: function (k) { delete mem[k]; }
+      };
+    }
+  })();
+
+  var DATA_KEY = 'klass6b_data_v3';
+  var USER_KEY = 'klass6b_user_v3';
+  var PASS_KEY = 'klass6b_pass_v3';
+  var DEFAULT_PASS = '9086'; /* пароль админа по умолчанию (можно сменить в админке) */
+
+  var ROLES = [
+    { id: 'starosta',     icon: '👑', title: 'Староста',                     desc: 'Отвечает за порядок в классе, связь с учителями, организацию общих дел.' },
+    { id: 'zam',          icon: '⭐', title: 'Заместитель старосты',         desc: 'Помогает старосте и замещает его при необходимости.' },
+    { id: 'ucheba',       icon: '📚', title: 'Учебный сектор',               desc: 'Следит за успеваемостью, помогает с расписанием и учебными вопросами.' },
+    { id: 'kultura',      icon: '🎭', title: 'Культмассовый сектор',         desc: 'Организует праздники, конкурсы и классные часы.' },
+    { id: 'sport',        icon: '🏅', title: 'Спортивный сектор',            desc: 'Отвечает за физкультуру, зарядку и соревнования.' },
+    { id: 'trud',         icon: '🧹', title: 'Трудовой сектор',              desc: 'Дежурство, уборка и порядок в кабинете.' },
+    { id: 'disciplina',   icon: '🚦', title: 'Ответственный за дисциплину',  desc: 'Помогает поддерживать порядок и тишину на уроках.' }
+  ];
+
+  var data = null;
+  var user = null;
+  var admin = false;
+  var flashId = null;
+  var adminFlash = null;
+  var pendingDelete = null;
+  var deleteTimer = null;
+  var pendingSwitch = false;
+  var switchTimer = null;
+
+  /* ---------- утилиты ---------- */
+  function $(sel) { return document.querySelector(sel); }
+  function el(tag, cls, html) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html !== undefined && html !== null) n.innerHTML = html;
+    return n;
+  }
+  function escapeHTML(s) {
+    return String(s).replace(/[&<>"']/g, function (m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+    });
+  }
+  function uid() {
+    return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  }
+  function plural(n, forms) {
+    var a = Math.abs(n) % 100, b = a % 10;
+    if (a > 10 && a < 20) return forms[2];
+    if (b > 1 && b < 5) return forms[1];
+    if (b === 1) return forms[0];
+    return forms[2];
+  }
+  function normName(s) { return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim(); }
+  function cleanSpaces(s) { return String(s || '').trim().replace(/\s+/g, ' '); }
+
+  /* ---------- данные ---------- */
+  function freshData() {
+    return { roles: ROLES.map(function (r) { return { id: r.id, icon: r.icon, title: r.title, desc: r.desc, candidates: [] }; }), votes: {} };
+  }
+  function load() {
+    try {
+      var raw = store.getItem(DATA_KEY);
+      data = raw ? JSON.parse(raw) : null;
+    } catch (e) { data = null; }
+
+    /* перенос со старой версии v2: там голоса хранились по одному на роль */
+    if (!data) {
+      try {
+        var raw2 = store.getItem('klass6b_data_v2');
+        if (raw2) {
+          var old2 = JSON.parse(raw2);
+          data = freshData();
+          if (old2 && Array.isArray(old2.roles)) {
+            data.roles.forEach(function (r) {
+              var oldRole = old2.roles.find(function (x) { return x.id === r.id; });
+              if (oldRole && Array.isArray(oldRole.candidates)) r.candidates = oldRole.candidates;
+            });
+          }
+          if (old2 && old2.votedBy) {
+            Object.keys(old2.votedBy).forEach(function (roleId) {
+              var v = old2.votedBy[roleId];
+              if (v && v.by && v.for) data.votes[roleId] = [{ by: v.by, for: v.for }];
+            });
+          }
+        }
+      } catch (e2) { data = null; }
+    }
+
+    if (!data || !Array.isArray(data.roles) || !data.roles.length) data = freshData();
+    if (!data.votes) data.votes = {};
+  }
+  function save() { store.setItem(DATA_KEY, JSON.stringify(data)); }
+
+  function loadUser() {
+    try {
+      var r = store.getItem(USER_KEY);
+      user = r ? JSON.parse(r) : null;
+    } catch (e) { user = null; }
+  }
+  function saveUser(u) { store.setItem(USER_KEY, JSON.stringify(u)); }
+  function clearUser() { store.removeItem(USER_KEY); user = null; }
+  function userFull() {
+    return user ? cleanSpaces(user.first + ' ' + user.last) : '';
+  }
+
+  function getPass() { return store.getItem(PASS_KEY) || DEFAULT_PASS; }
+  function setPass(p) { store.setItem(PASS_KEY, p); }
+
+  function clearPending() {
+    pendingDelete = null;
+    if (deleteTimer) { clearTimeout(deleteTimer); deleteTimer = null; }
+  }
+
+  /* ---------- РЕГИСТРАЦИЯ ---------- */
+  function openReg(hint) {
+    var ov = $('#regOverlay');
+    if (!ov) return;
+    ov.hidden = false;
+    var msg = $('#regMsg');
+    if (msg) {
+      msg.className = 'reg-msg';
+      msg.textContent = hint || '';
+      if (hint) msg.classList.add('err');
+    }
+  }
+  function closeReg() {
+    var ov = $('#regOverlay');
+    if (ov) ov.hidden = true;
+  }
+  function doRegister() {
+    var f = $('#regFirst'), l = $('#regLast'), msg = $('#regMsg');
+    var first = cleanSpaces(f.value);
+    var last = cleanSpaces(l.value);
+    msg.className = 'reg-msg';
+    msg.textContent = '';
+    if (!first || !last) {
+      msg.textContent = 'Укажите имя и фамилию.';
+      msg.classList.add('err');
+      (first ? l : f).classList.add('shake');
+      setTimeout(function () { (first ? l : f).classList.remove('shake'); }, 500);
+      return;
+    }
+    if (first.length > 30 || last.length > 30) {
+      msg.textContent = 'Слишком длинное имя.';
+      msg.classList.add('err');
+      return;
+    }
+    user = { first: first, last: last };
+    saveUser(user);
+    f.value = ''; l.value = '';
+    closeReg();
+    renderAll();
+    var v = $('#voting');
+    if (v && typeof v.scrollIntoView === 'function') v.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ---------- ГОЛОСОВАНИЕ ---------- */
+  function roleCard(role) {
+    var card = el('section', 'role-card');
+    card.dataset.role = role.id;
+
+    var total = role.candidates.reduce(function (s, c) { return s + c.votes; }, 0);
+    var maxVotes = role.candidates.length ? Math.max.apply(null, role.candidates.map(function (c) { return c.votes; })) : 0;
+
+    var head = el('header', 'role-head');
+    head.innerHTML =
+      '<span class="role-icon">' + role.icon + '</span>' +
+      '<div class="role-head-text"><h3>' + role.title + '</h3><p>' + role.desc + '</p></div>' +
+      '<div class="role-stat">проголосовало: <b>' + total + '</b></div>';
+
+    var list = el('div', 'cand-list');
+    var sorted = role.candidates.slice().sort(function (a, b) { return b.votes - a.votes || (a.id < b.id ? -1 : 1); });
+    if (!sorted.length) {
+      list.appendChild(el('div', 'cand-empty', 'Кандидатов пока нет — выдвижение открыто.'));
+    } else {
+      sorted.forEach(function (c) { list.appendChild(candRow(role, c, maxVotes)); });
+    }
+
+    var nom = el('div', 'nom');
+    var toggleBtn = el('button', 'btn btn-ghost nom-toggle', 'Выдвинуть свою кандидатуру');
+    var formWrap = el('div', 'nom-form');
+    formWrap.innerHTML =
+      '<span class="nom-name">Кандидат: <b></b></span>' +
+      '<button type="button" class="btn btn-primary nom-submit">Выдвинуть</button>' +
+      '<p class="nom-msg"></p>';
+    var nameB = formWrap.querySelector('.nom-name b');
+    toggleBtn.addEventListener('click', function () {
+      if (!user) {
+        openReg('Сначала зарегистрируйтесь, чтобы выдвинуть кандидатуру.');
+        return;
+      }
+      nameB.textContent = userFull();
+      var open = formWrap.classList.toggle('open');
+      toggleBtn.classList.toggle('active', open);
+    });
+    formWrap.querySelector('.nom-submit').addEventListener('click', function () { doNominate(role.id, formWrap); });
+    nom.append(toggleBtn, formWrap);
+
+    card.append(head, list, nom);
+    return card;
+  }
+
+  function candRow(role, c, maxVotes) {
+    var row = el('div', 'cand-row');
+    row.dataset.candId = c.id;
+    if (user && userVotedFor(role.id, c.id)) row.classList.add('mine');
+    if (flashId === c.id) row.classList.add('flash');
+
+    var leaders = role.candidates.filter(function (x) { return x.votes === maxVotes && x.votes > 0; }).length;
+    var isLeader = c.votes > 0 && c.votes === maxVotes && leaders === 1;
+
+    var info = el('div', 'cand-info');
+    info.appendChild(el('span', 'cand-name', escapeHTML(c.name)));
+    if (isLeader) info.appendChild(el('span', 'leader', 'лидер'));
+
+    var badge = el('span', 'badge', c.votes + ' ' + plural(c.votes, ['голос', 'голоса', 'голосов']));
+    if (flashId === c.id) badge.classList.add('flash');
+
+    var mine = user && userVotedFor(role.id, c.id);
+    var btn = el('button', 'btn vote-btn' + (mine ? ' voted' : ''), mine ? '✓ Ваш голос' : 'Голосовать');
+    btn.dataset.action = 'vote';
+    btn.dataset.role = role.id;
+    btn.dataset.cand = c.id;
+
+    var wrap = el('div', 'vote-wrap');
+    var msg = el('p', 'vote-msg', '');
+    wrap.append(btn, msg);
+
+    row.append(info, badge, wrap);
+    return row;
+  }
+
+  function userVotedFor(roleId, candId) {
+    if (!user) return false;
+    var list = data.votes[roleId] || [];
+    return list.some(function (v) { return v.for === candId && normName(v.by) === normName(userFull()); });
+  }
+
+  function renderVoting() {
+    var wrap = $('#roles');
+    wrap.innerHTML = '';
+    data.roles.forEach(function (role) { wrap.appendChild(roleCard(role)); });
+
+    var total = data.roles.reduce(function (s, r) {
+      return s + r.candidates.reduce(function (s2, c) { return s2 + c.votes; }, 0);
+    }, 0);
+    var tv = $('#totalVotes');
+    if (tv) tv.textContent = total;
+
+    var sub = $('#votingSub');
+    if (sub) {
+      sub.innerHTML = user
+        ? 'Вы голосуете как: <b>' + escapeHTML(userFull()) + '</b>'
+        : 'Зарегистрируйтесь, чтобы голосовать.';
+    }
+    var notice = $('#regNotice');
+    if (notice) notice.hidden = !!user;
+  }
+
+  function showRowMsg(btn, text, ok) {
+    var row = btn.closest('.cand-row');
+    if (!row) return;
+    var msg = row.querySelector('.vote-msg');
+    if (!msg) return;
+    msg.textContent = text;
+    msg.className = 'vote-msg' + (ok ? ' ok' : ' err');
+    setTimeout(function () {
+      msg.className = 'vote-msg';
+      msg.textContent = '';
+    }, 2000);
+  }
+
+  $('#roles').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-action="vote"]');
+    if (!btn) return;
+    if (!user) {
+      openReg('Сначала зарегистрируйтесь, чтобы голосовать.');
+      return;
+    }
+    doVote(btn.dataset.role, btn.dataset.cand, btn);
+  });
+
+  function doVote(roleId, candId, btn) {
+    var role = data.roles.find(function (r) { return r.id === roleId; });
+    var cand = role && role.candidates.find(function (c) { return c.id === candId; });
+    if (!role || !cand || !user) return;
+
+    var full = userFull();
+    if (normName(cand.name) === normName(full)) {
+      showRowMsg(btn, 'За себя голосовать нельзя.', false);
+      return;
+    }
+    var list = data.votes[roleId] || [];
+    if (list.some(function (v) { return normName(v.by) === normName(full); })) {
+      showRowMsg(btn, 'Вы уже голосовали в этой роли.', false);
+      return;
+    }
+
+    cand.votes++;
+    list.push({ by: full, for: candId });
+    data.votes[roleId] = list;
+    flashId = candId;
+    save();
+    renderAll();
+  }
+
+  function doNominate(roleId, formWrap) {
+    var role = data.roles.find(function (r) { return r.id === roleId; });
+    if (!role || !formWrap) return;
+    var msg = formWrap.querySelector('.nom-msg');
+    msg.textContent = '';
+    msg.classList.remove('ok', 'err');
+
+    if (!user) {
+      openReg('Сначала зарегистрируйтесь, чтобы выдвинуть кандидатуру.');
+      return;
+    }
+    var name = userFull();
+    var dup = role.candidates.find(function (c) { return c.name.toLowerCase() === name.toLowerCase(); });
+    if (dup) {
+      msg.textContent = 'Вы уже выдвинуты в этой роли.';
+      msg.classList.add('err');
+      return;
+    }
+
+    var newCand = { id: uid(), name: name, votes: 0 };
+    role.candidates.push(newCand);
+    flashId = newCand.id;
+
+    var submit = formWrap.querySelector('.nom-submit');
+    submit.disabled = true;
+    msg.textContent = 'Кандидатура добавлена.';
+    msg.classList.add('ok');
+    setTimeout(function () {
+      formWrap.classList.remove('open');
+      var toggle = formWrap.parentElement.querySelector('.nom-toggle');
+      if (toggle) toggle.classList.remove('active');
+      submit.disabled = false;
+      msg.textContent = '';
+      msg.classList.remove('ok');
+    }, 1400);
+
+    save();
+    renderAll();
+    var sc = document.querySelector('[data-cand-id="' + newCand.id + '"]');
+    if (sc && typeof sc.scrollIntoView === 'function') sc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ---------- ПОЛЬЗОВАТЕЛЬ В ШАПКЕ ---------- */
+  function renderUserbar() {
+    var ub = $('#userbar');
+    if (!ub) return;
+    ub.innerHTML = '';
+    if (user) {
+      ub.appendChild(el('span', 'ub-name', '👤 ' + escapeHTML(userFull())));
+      var sb = el('button', 'btn btn-ghost ub-switch', pendingSwitch ? 'Точно сменить?' : 'Сменить участника');
+      sb.dataset.action = 'switch';
+      ub.appendChild(sb);
+    } else {
+      var rb = el('button', 'btn btn-primary ub-reg', 'Регистрация');
+      rb.dataset.action = 'register';
+      ub.appendChild(rb);
+    }
+  }
+
+  $('#userbar').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    if (btn.dataset.action === 'register') {
+      openReg();
+      return;
+    }
+    if (btn.dataset.action === 'switch') {
+      if (pendingSwitch) {
+        clearUser();
+        pendingSwitch = false;
+        if (switchTimer) { clearTimeout(switchTimer); switchTimer = null; }
+        renderAll();
+        openReg();
+      } else {
+        pendingSwitch = true;
+        renderAll();
+        switchTimer = setTimeout(function () {
+          pendingSwitch = false;
+          renderAll();
+        }, 3000);
+      }
+    }
+  });
+
+  /* ---------- АДМИН-ПАНЕЛЬ ---------- */
+  function loginAdmin() {
+    var input = $('#adminPass');
+    var msg = $('.admin-msg');
+    if (!input) return;
+    if (input.value === getPass()) {
+      admin = true;
+      renderAll();
+    } else {
+      input.value = '';
+      input.classList.add('shake');
+      msg.textContent = 'Неверный пароль.';
+      msg.classList.add('err');
+      setTimeout(function () { input.classList.remove('shake'); }, 500);
+    }
+  }
+
+  function adminRole(role) {
+    var wrap = el('div', 'admin-role');
+    var head = el('div', 'admin-role-head', role.icon + ' ' + role.title +
+      ' <span class="count">кандидатов: ' + role.candidates.length + '</span>');
+    wrap.appendChild(head);
+
+    if (!role.candidates.length) {
+      wrap.appendChild(el('div', 'cand-empty', 'Кандидатов пока нет.'));
+    } else {
+      role.candidates.forEach(function (c) {
+        var row = el('div', 'admin-row');
+        row.dataset.candId = c.id;
+        var name = el('span', 'admin-name', escapeHTML(c.name));
+        var votes = el('span', 'badge' + (adminFlash === c.id ? ' flash' : ''), c.votes + ' ' + plural(c.votes, ['голос', 'голоса', 'голосов']));
+
+        var controls = el('div', 'admin-controls');
+        var minus = el('button', 'btn btn-round minus', '−'); minus.title = 'Убрать голос';
+        var plus = el('button', 'btn btn-round plus', '+'); plus.title = 'Добавить голос';
+        var del = el('button', 'btn btn-danger del-btn', 'Удалить');
+        if (pendingDelete && pendingDelete.roleId === role.id && pendingDelete.candId === c.id) {
+          del.classList.add('confirm');
+          del.textContent = 'Точно?';
+        }
+        [minus, plus, del].forEach(function (b) { b.dataset.role = role.id; b.dataset.cand = c.id; b.dataset.a = b === minus ? 'minus' : (b === plus ? 'plus' : 'del'); });
+        controls.append(minus, plus, del);
+        row.append(name, votes, controls);
+        wrap.appendChild(row);
+      });
+
+      /* список проголосовавших по этой роли */
+      var vlist = data.votes[role.id] || [];
+      if (vlist.length) {
+        wrap.appendChild(el('div', 'admin-votes-head', 'Кто проголосовал (' + vlist.length + '):'));
+        var votesBox = el('div', 'admin-votes');
+        vlist.forEach(function (v) {
+          var cand = role.candidates.find(function (c) { return c.id === v.for; });
+          var vr = el('div', 'admin-vote-row');
+          vr.innerHTML = '<span class="avoter">' + escapeHTML(v.by) + '</span>' +
+                         '<span class="aarrow">→</span>' +
+                         '<span class="afor">' + (cand ? escapeHTML(cand.name) : '—') + '</span>';
+          votesBox.appendChild(vr);
+        });
+        wrap.appendChild(votesBox);
+      }
+
+      var resetRole = el('button', 'btn btn-ghost', 'Сбросить голоса этой роли');
+      resetRole.addEventListener('click', function () {
+        role.candidates.forEach(function (c) { c.votes = 0; });
+        delete data.votes[role.id];
+        clearPending();
+        save();
+        renderAll();
+        resetRole.textContent = '✓ Голоса сброшены';
+        setTimeout(function () { resetRole.textContent = 'Сбросить голоса этой роли'; }, 1600);
+      });
+      wrap.appendChild(resetRole);
+    }
+    return wrap;
+  }
+
+  function renderAdmin() {
+    var box = $('#adminBox');
+    box.innerHTML = '';
+
+    if (!admin) {
+      var lock = el('div', 'admin-lock');
+      lock.innerHTML =
+        '<div class="lock-icon">🔒</div>' +
+        '<h3>Вход в админ-панель</h3>' +
+        '<p>Введите пароль для управления кандидатами и голосами.</p>' +
+        '<div class="pass-row">' +
+        '  <input type="password" id="adminPass" placeholder="Пароль" autocomplete="off">' +
+        '  <button class="btn btn-primary" id="adminLogin">Войти</button>' +
+        '</div>' +
+        '<p class="admin-msg"></p>';
+      box.appendChild(lock);
+      lock.querySelector('#adminLogin').addEventListener('click', loginAdmin);
+      lock.querySelector('#adminPass').addEventListener('keydown', function (e) { if (e.key === 'Enter') loginAdmin(); });
+      return;
+    }
+
+    var settings = el('div', 'admin-settings');
+    settings.innerHTML =
+      '<span class="admin-title">Настройки</span>' +
+      '<div class="pass-row">' +
+      '  <input type="text" id="newPass" placeholder="Новый пароль" maxlength="30" autocomplete="off">' +
+      '  <button class="btn btn-primary" id="savePass">Сменить пароль</button>' +
+      '  <button class="btn btn-danger-soft" id="adminLogout">Выйти</button>' +
+      '</div>' +
+      '<p class="pass-msg"></p>';
+    box.appendChild(settings);
+
+    settings.querySelector('#savePass').addEventListener('click', function () {
+      var input = settings.querySelector('#newPass');
+      var msg = settings.querySelector('.pass-msg');
+      var v = input.value.trim();
+      if (v.length < 4) {
+        msg.textContent = 'Пароль должен быть не короче 4 символов.';
+        msg.classList.add('err'); msg.classList.remove('ok');
+        input.classList.add('shake');
+        setTimeout(function () { input.classList.remove('shake'); }, 500);
+        return;
+      }
+      setPass(v);
+      msg.textContent = '✓ Пароль изменён';
+      msg.classList.add('ok'); msg.classList.remove('err');
+      input.value = '';
+    });
+    settings.querySelector('#adminLogout').addEventListener('click', function () {
+      admin = false;
+      clearPending();
+      renderAll();
+    });
+
+    data.roles.forEach(function (role) { box.appendChild(adminRole(role)); });
+
+    var danger = el('div', 'admin-global');
+    danger.innerHTML = '<p>Глобальные действия:</p>';
+    var btnReset = el('button', 'btn btn-danger', 'Сбросить все голоса');
+    btnReset.addEventListener('click', function () {
+      data.roles.forEach(function (r) { r.candidates.forEach(function (c) { c.votes = 0; }); });
+      data.votes = {};
+      clearPending();
+      save();
+      renderAll();
+      btnReset.textContent = '✓ Все голоса сброшены';
+      setTimeout(function () { btnReset.textContent = 'Сбросить все голоса'; }, 1600);
+    });
+    danger.appendChild(btnReset);
+    box.appendChild(danger);
+  }
+
+  $('#adminBox').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-a]');
+    if (!btn) return;
+    var roleId = btn.dataset.role, candId = btn.dataset.cand, a = btn.dataset.a;
+    var role = data.roles.find(function (x) { return x.id === roleId; });
+    var cand = role && role.candidates.find(function (x) { return x.id === candId; });
+    if (!role || !cand) return;
+
+    if (a === 'plus') {
+      cand.votes++;
+      adminFlash = candId;
+      clearPending();
+    } else if (a === 'minus') {
+      if (cand.votes > 0) cand.votes--;
+      adminFlash = candId;
+      clearPending();
+    } else if (a === 'del') {
+      if (pendingDelete && pendingDelete.roleId === roleId && pendingDelete.candId === candId) {
+        role.candidates = role.candidates.filter(function (x) { return x.id !== candId; });
+        Object.keys(data.votes).forEach(function (k) {
+          data.votes[k] = data.votes[k].filter(function (v) { return v.for !== candId; });
+          if (!data.votes[k].length) delete data.votes[k];
+        });
+        clearPending();
+        save();
+        renderAll();
+        return;
+      }
+      pendingDelete = { roleId: roleId, candId: candId };
+      if (deleteTimer) clearTimeout(deleteTimer);
+      deleteTimer = setTimeout(function () { pendingDelete = null; renderAll(); }, 3000);
+    }
+    save();
+    renderAll();
+  });
+
+  /* ---------- СБОРКА ---------- */
+  function renderAll() {
+    renderVoting();
+    renderAdmin();
+    renderUserbar();
+    flashId = null;
+    adminFlash = null;
+  }
+
+  function init() {
+    load();
+    loadUser();
+    renderAll();
+    if (!user) openReg();
+    $('#regSubmit').addEventListener('click', doRegister);
+    $('#regLast').addEventListener('keydown', function (e) { if (e.key === 'Enter') doRegister(); });
+    $('#regLater').addEventListener('click', closeReg);
+    var nb = $('#regNoticeBtn');
+    if (nb) nb.addEventListener('click', function () { openReg('Для участия в голосовании необходимо зарегистрироваться.'); });
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
